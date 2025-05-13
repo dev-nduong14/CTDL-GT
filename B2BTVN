@@ -1,0 +1,41 @@
+#include <stdio.h>
+/*                     Bắt đầu
+                     /    |    \
+                   A      B      C  ← Lựa chọn đầu tiên(i= 0)
+                 / \    / \    / \
+                B   C  A   C  A   B  ← Lựa chọn thứ hai(i=1)
+               |   |  |   |  |   |
+               C   B  C   A  B   A  ← Lựa chọn cuối cùng(i=2)*/
+void doi(int* x, int* y) {
+	int t = *x;
+	*x = *y;
+	*y = t;
+}
+void in(int a[], int n) {
+	for (int i = 0; i < n;i++) {
+		printf("%d ", a[i]);
+	}
+	printf("\n");
+}
+void hv(int a[], int n, int i) {
+	//dk dung
+
+	if (i == n) {
+		in(a, n);//ghi lai lo trinh
+		return;
+	}
+	for (int j = i; j < n;j++) {
+		doi(&a[i], &a[j]);//chon nga re thu j
+		hv(a, n, i + 1);//di tiep
+		doi(&a[i], &a[j]);//quay lai chon lai nga re
+	}
+}
+int main() {
+	int n;
+	scanf_s("%d", &n);
+	int a[100];
+	for (int i = 0; i < n;i++) {
+		scanf_s("%d", &a[i]);
+	}
+	hv(a, n, 0);
+}
