@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <string.h>
+//#include <ctype.h>
+void inNguoc(char s[], int i) {
+	if (i < 0) return;
+	putchar(s[i]);
+	inNguoc(s, i - 1);
+}
+int main() {
+	printf("Cach 1: \n");
+	char c[] = "hello";
+	for (int i = strlen(c);i >= 0;i--) {
+		printf("%c", c[i]);
+	}
+	printf("\nCach 2:\n");
+	inNguoc(c, strlen(c) - 1);
+}
