@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+int a[100][100]; // B?ng hi?u su?t
+int b[100];      // Ðánh d?u công vi?c dã dùng
+int c[100];    // M?ng luu công vi?c du?c gán cho t?ng ngu?i
+int n;
+int c_top[100];
+int k = 0;       // T?ng hi?u su?t cao nh?t
+
+void quaylui(int i, int tong) {
+        if (i == n) {
+            if (tong > k) {
+                k = tong;
+                for (int p = 0; p < n; p++) {
+                    c_top[p] = c[p];  // Lưu lại phương án tốt nhất
+                }
+            }
+            return;
+    }
+
+    for (int j = 0; j < n; j++) {
+        if (!b[j]) {
+            b[j] = 1;
+            c[i] = j;
+            quaylui(i + 1, tong + a[i][j]);//quay lai vi tri chon de chon lai
+            b[j] = 0;
+        }
+    }
+}
+
+int main() {
+    printf("Nhap so luong cong nhan va cong viec (n x n): ");
+    scanf_s("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("Hieu suat nguoi %d lam cong viec %d: ", i + 1, j + 1);
+            scanf_s("%d", &a[i][j]);
+        }
+    }
+
+    printf("\nTat ca cac cach phan cong:\n");
+    quaylui(0, 0);
+
+    printf("\nPhuong an tot nhat:\n");
+    for (int p = 0; p < n; p++) {
+        printf("Nguoi %d -> CV %d, ", p + 1, c_top[p] + 1);
+    }
+    printf(" | Tong hieu suat = %d\n", k);
+
+    return 0;
+}
