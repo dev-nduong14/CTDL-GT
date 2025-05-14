@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+void dfs(struct TreeNode* node, char* path, char** res, int* returnSize) {
+    // Nếu node là NULL, không cần xử lý gì
+    if (!node) return;
+
+    // Thêm giá trị node vào chuỗi đường đi
+    char buffer[50];
+    int len = strlen(path);
+    if (len > 0) {
+        sprintf(buffer, "%s->%d", path, node->val);
+    } else {
+        sprintf(buffer, "%d", node->val);
+    }
+
+    // Nếu node là lá (không có con trái và con phải)
+    if (node->left == NULL && node->right == NULL) {
+        res[*returnSize] = strdup(buffer); // Lưu lại đường đi vào kết quả
+        (*returnSize)++;  // Tăng kích thước mảng kết quả
+        return;
+    }
+
+    // Đệ quy tiếp vào con trái và con phải
+    if (node->left) dfs(node->left, buffer, res, returnSize);
+    if (node->right) dfs(node->right, buffer, res, returnSize);
+}
+
+char** binaryTreePaths(struct TreeNode* root, int* returnSize) {
+    // Mảng kết quả để lưu các đường đi
+    char** res = (char**)malloc(1000 * sizeof(char*));
+    *returnSize = 0;
+
+    // Nếu cây trống, trả về mảng rỗng
+    if (!root) return res;
+
+    // Khởi tạo chuỗi path rỗng
+    char path[100] = "";
+    // Gọi hàm DFS để tìm tất cả các đường đi
+    dfs(root, path, res, returnSize);
+
+    return res;
+}
