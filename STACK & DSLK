@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct node {
+	int data;
+	struct node *next;
+} node;
+typedef struct stack {
+	node *top;
+} stack;
+node *make(int x) {
+	node *p = (node*)malloc(sizeof(node));
+	if (p == NULL) return NULL;
+	p->data = x;
+	p->next = NULL;
+	return p;
+}
+void ktao(stack *s) {
+	s->top = NULL; 
+}
+int isEmpty(stack *s) {
+	return s->top == NULL;
+}
+int isFull(stack *s, int x) {
+	node *p = make(x);
+	if (p == NULL)
+		return 1;
+	free(p);
+	return 0;
+}
+void push(stack *s, int x) {
+	if (isFull(s, x)) {
+		return;
+	}
+	node *p = make(x);
+	p->next = s->top;
+	s->top = p;
+}
+int pop(stack *s) {
+	if (isEmpty(s)) {
+		printf("Stack rong!\n");
+		return -1;  
+	}
+	node *tmp = s->top;
+	int k = tmp->data;
+	s->top = tmp->next;
+	free(tmp);
+	return k;
+}
+int main() {
+	stack s;
+	ktao(&s);
+	int m;
+	int i;
+	scanf("%d",&m);
+	while(m--){
+		int i;
+		scanf("%d",&i);
+		push(&s,i);
+	}
+	while(!isEmpty(&s)){
+		printf("%d ",pop(&s));
+	}
+	return 0;
+}
