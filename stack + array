@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+#define MAX 100
+int top = -1;//phan tu dau tien trong ngan xep
+int stack[MAX];//dung luong ngan xep
+int isEmpty(){
+	return top==-1;
+}
+int isFull(){
+	return top==MAX -1;
+}
+void push(int x){
+	if(isFull()){
+		printf("Stack full\n");
+	}
+	top+=1;
+	stack[top] = x;
+}
+int pop(){
+	if(isEmpty())
+		return -1;
+	int k = stack[top];
+	top--;
+	return k;
+}
+int main(){
+	int n;
+	printf("nhap so luong phan tu ngan xep.\n");
+	scanf("%d",&n);
+	while(n--){
+		int t;
+		scanf("%d",&t);
+		push(t);
+	}
+	while(!isEmpty()){
+		printf("%d ",pop());
+	}
+}
