@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdbool.h>
+#define MAX 100
+typedef struct {
+    int a[MAX];
+    int front;
+    int rear;
+} queue;
+void ktao(queue *q) {
+    q->front = -1;
+    q->rear = 0;
+}
+int isEmpty(queue *q) {
+    return q->front == q->rear - 1;
+}
+
+int isFull(queue *q) {
+    return q->rear == MAX;
+}
+void enqueue(queue *q, int x) {
+    if (isFull(q)) {
+        printf("Hang doi da day!\n");
+        return;
+    }
+    q->a[q->rear] = x;
+    q->rear++;
+}
+int dequeue(queue *q) {
+    if (isEmpty(q)) {
+        printf("Hang doi rong!\n");
+        return -1;
+    }
+    q->front++;
+    return q->a[q->front];
+}
+int main() {
+    int n;
+    queue q;
+    ktao(&q);
+    scanf("%d", &n);
+    while (n--) {
+        int i;
+        scanf("%d", &i);
+        enqueue(&q, i);
+    }
+    while (!isEmpty(&q)) {
+        printf("%d ", dequeue(&q));
+    }
+
+    return 0;
+}
