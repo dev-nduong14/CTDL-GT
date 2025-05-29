@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+    int data;
+    struct node *left;
+    struct node *right;
+};
+typedef struct node node;
+
+struct tree {
+    node *root;
+};
+typedef struct tree tree;
+
+node *make(int x) {
+    node *p = (node *)malloc(sizeof(node));
+    p->data = x;
+    p->left = NULL;
+    p->right = NULL;
+    return p;
+}
+node* newroot(node* root, int x) {
+    if (root == NULL) return make(x);
+    if (x < root->data)
+        root->left = newroot(root->left, x);
+    else if (x > root->data)
+        root->right = newroot(root->right, x);
+    return root;
+}
+void add(tree *t, int x) {
+    t->root = newroot(t->root, x);
+}
+void in(node *r) {
+    if (r != NULL) {
+        printf("%d ", r->data);
+        in(r->left);
+        in(r->right);
+    }
+}
+void duyet(tree *t) {
+    in(t->root);
+}
+node* xoaLa(node *r) {
+    if (r == NULL) return NULL;
+
+    if (r->left == NULL && r->right == NULL) {
+        free(r);
+        return NULL;  // C?p nh?t dúng con tr? ? cây cha
+    }
+
+    r->left = xoaLa(r->left);
+    r->right = xoaLa(r->right);
+
+    return r;
+}
+void xoa(tree *t){
+	xoaLa(t->root);
+}
+int main() {
+    tree t;
+    t.root = NULL;
+    while (1) {
+        printf("\n1. Nhap phan tu cua cay.\n");
+        printf("2. Duyet phan tu cay theo NLR.\n");
+        printf("Chon: ");
+        int lc;
+        scanf("%d", &lc);
+        if (lc == 1) {
+            int n;
+            printf("Nhap so luong phan tu cua cay: ");
+            scanf("%d", &n);
+            for (int i = 0; i < n; i++) {
+                int x;
+                printf("Nhap phan tu thu %d: ", i + 1);
+                scanf("%d", &x);
+                add(&t, x);
+            }
+        } else if (lc == 2) {
+            printf("Cay theo thu tu NLR: ");
+            duyet(&t);
+            printf("\n");
+        }
+        else if (lc == 3) {
+            xoa(&t); 
+            printf("Da xoa tat ca cac node la.\n");
+        }
+    }
+}
